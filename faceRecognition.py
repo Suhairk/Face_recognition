@@ -1,7 +1,7 @@
 import cv2,os,numpy
 haar_file = 'haarcascade_frontalface_default.xml'
 face_cascade = cv2.CascadeClassifier(haar_file)
-dataset = 'dataset'
+dataset = 'dataset' #creat dataset for recognition
 print("Training Started")
 (images , labels, names, id) = ([],[],{},0)
 
@@ -23,13 +23,11 @@ model = cv2.face.LBPHFaceRecognizer_create()
 #model =  cv2.face.FisherFaceRecognizer_create()
 model.train(images, labels)
 webcam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-address = "https://192.168.43.1:8080/video"
-webcam.open(address)
 cnt=0
 
 while True:
-    (_, im) = webcam.read()
-    #im = imutils.resize(im, width=200)
+    (ret, im) = webcam.read()
+    im = imutils.resize(im, width=200)
     gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
     for (x,y,w,h) in faces:
